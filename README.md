@@ -1,2 +1,2 @@
 # MegaLoggerEE
-MegaLoggerEE is a Java-based service for source engine servers
+MegaLoggerEE is a JavaEE based system that offers tools for Source Engine servers.
