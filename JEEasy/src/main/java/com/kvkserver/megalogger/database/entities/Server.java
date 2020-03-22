@@ -2,6 +2,8 @@ package com.kvkserver.megalogger.database.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,7 @@ public class Server extends AbstractEntity {
 	public static final String NAME_ATTRIBUTE = "name";
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idServer;
 	
 	@ManyToOne

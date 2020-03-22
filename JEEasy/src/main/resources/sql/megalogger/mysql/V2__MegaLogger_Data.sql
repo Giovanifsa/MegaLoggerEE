@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS `Player` (
-  `idPlayer` BIGINT NOT NULL,
+  `idPlayer` BIGINT NOT NULL AUTO_INCREMENT,
   `steamID64` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`idPlayer`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Server` (
-  `idServer` BIGINT NOT NULL,
+  `idServer` BIGINT NOT NULL AUTO_INCREMENT,
   `idUser` BIGINT NOT NULL,
   `name` VARCHAR(64) NOT NULL,
   `lastIp` VARCHAR(16) NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `Server` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `PlayerConnection` (
-  `idPlayerConnection` BIGINT NOT NULL,
+  `idPlayerConnection` BIGINT NOT NULL AUTO_INCREMENT,
   `dateTime` TIMESTAMP NOT NULL,
   `idPlayer` BIGINT NOT NULL,
   `idServer` BIGINT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `PlayerConnection` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `PlayerName` (
-  `idPlayerName` BIGINT NOT NULL,
+  `idPlayerName` BIGINT NOT NULL AUTO_INCREMENT,
   `dateTime` TIMESTAMP NOT NULL,
   `idPlayerConnection` BIGINT NOT NULL,
   `name` VARCHAR(32) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `PlayerName` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `PlayerMessage` (
-  `idPlayerMessage` BIGINT NOT NULL,
+  `idPlayerMessage` BIGINT NOT NULL AUTO_INCREMENT,
   `idPlayerConnection` BIGINT NOT NULL,
   `message` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`idPlayerMessage`),
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `PlayerMessage` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `PlayerNetSettings` (
-  `idPlayerNetSettings` BIGINT NOT NULL,
+  `idPlayerNetSettings` BIGINT NOT NULL AUTO_INCREMENT,
   `idPlayerConnection` BIGINT NOT NULL,
   `cl_interp` DECIMAL(10,9) NOT NULL,
   `cl_interp_ratio` DECIMAL(12,6) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `PlayerNetSettings` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `PlayerGameSettings` (
-  `idPlayerGameSettings` BIGINT NOT NULL,
+  `idPlayerGameSettings` BIGINT NOT NULL AUTO_INCREMENT,
   `idPlayerConnection` BIGINT NOT NULL,
   `sensitivity` DECIMAL(12,6) NOT NULL,
   PRIMARY KEY (`idPlayerGameSettings`),

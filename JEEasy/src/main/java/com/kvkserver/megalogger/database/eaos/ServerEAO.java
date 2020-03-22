@@ -1,6 +1,11 @@
 package com.kvkserver.megalogger.database.eaos;
 
+import java.util.List;
+
+import javax.persistence.TypedQuery;
+
 import com.jeeasy.engine.database.eaos.AbstractListingEAO;
+import com.jeeasy.engine.database.entities.User;
 import com.jeeasy.engine.queries.PagedResultList;
 import com.jeeasy.engine.queries.QuerySettings;
 import com.kvkserver.megalogger.database.entities.Server;
@@ -11,5 +16,18 @@ public class ServerEAO extends AbstractListingEAO<Server, ServerVO> {
 	public PagedResultList<ServerVO> getDefaultPagedResultList(QuerySettings querySettings) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<Long> findServersOwnedByUser(User user) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(" SELECT sv.idServer ");
+		sb.append(" FROM Server sv ");
+		sb.append(" WHERE sv.user = :user ");
+		
+		TypedQuery<Long> query = createTypedQuery(sb, Long.class);
+		query.setParameter("user", user);
+		
+		return getResultList(query);
 	}
 }
