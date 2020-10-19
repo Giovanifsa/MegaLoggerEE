@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import com.jeeasy.engine.configuration.IConfigurator;
 import com.jeeasy.engine.database.builders.UserBuilder;
 import com.jeeasy.engine.database.eaos.UserEAO;
+import com.jeeasy.engine.database.eaos.UserRoleEAO;
 import com.jeeasy.engine.database.entities.User;
 import com.jeeasy.engine.database.entities.constants.UserRoleConstants;
 import com.jeeasy.engine.settings.SystemCharsetSetting;
@@ -22,6 +23,9 @@ public class ConfigureSystemUser implements IConfigurator {
 	private UserEAO userEAO;
 	
 	@Inject
+	private UserRoleEAO userRoleEAO;
+	
+	@Inject
 	private SystemUserDefaultPasswordSetting systemUserDefaultPassword;
 	
 	@Inject
@@ -31,6 +35,15 @@ public class ConfigureSystemUser implements IConfigurator {
 	
 	@Override
 	public void configure() {
+		configureRootUserRole();
+		configureSystemUser();
+	}
+	
+	private void configureRootUserRole() {
+		userRoleEAO.merge(UserRoleConstants.ROOT);
+	}
+	
+	private void configureSystemUser() {
 		User admin = userEAO.findByUserName("system");
 		
 		if (admin == null) {

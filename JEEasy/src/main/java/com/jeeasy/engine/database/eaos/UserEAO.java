@@ -3,10 +3,11 @@ package com.jeeasy.engine.database.eaos;
 import javax.persistence.TypedQuery;
 
 import com.jeeasy.engine.database.entities.User;
-import com.jeeasy.engine.queries.PagedResultList;
-import com.jeeasy.engine.queries.QuerySettings;
 import com.jeeasy.engine.queries.UserDefaultQuery;
 import com.jeeasy.engine.queries.vos.UserVO;
+import com.jeeasy.engine.utils.queries.PagedResultList;
+import com.jeeasy.engine.utils.queries.QueryBuilder;
+import com.jeeasy.engine.utils.queries.SQLQueryUtils;
 
 public class UserEAO extends AbstractListingEAO<User, UserVO> {
 	public User findByUserLogin(String userName, String base64SHA512Password) {
@@ -36,7 +37,7 @@ public class UserEAO extends AbstractListingEAO<User, UserVO> {
 	}
 
 	@Override
-	public PagedResultList<UserVO> getDefaultPagedResultList(QuerySettings querySettings) {
-		return getPagedResultList(new UserDefaultQuery(), querySettings);
+	public PagedResultList<UserVO> getDefaultPagedResultList(QueryBuilder querySettings) {
+		return SQLQueryUtils.getPagedResultList(new UserDefaultQuery(), querySettings);
 	}
 }

@@ -10,6 +10,7 @@ import com.jeeasy.engine.database.entities.UserRole;
 import com.jeeasy.engine.utils.dependencies.IDependencyBean;
 
 public class UserRoleConstants implements IEntityConstants {
+	//Configured by ConfigureSystemUser
 	public static final UserRole ROOT = 
 			new UserRoleBuilder()
 			.setIdUserRole(1L)
@@ -21,8 +22,6 @@ public class UserRoleConstants implements IEntityConstants {
 	@Override
 	public List<AbstractEntity> getConstantEntities() {
 		ArrayList<AbstractEntity> constants = new ArrayList<>();
-		
-		constants.add(ROOT);
 		
 		return constants;
 	}

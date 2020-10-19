@@ -12,8 +12,6 @@ import com.jeeasy.engine.database.eaos.AbstractListingEAO;
 import com.jeeasy.engine.database.entities.AbstractEntity;
 import com.jeeasy.engine.exceptions.FailureRuntimeException;
 import com.jeeasy.engine.exceptions.codes.EnumFailureExceptionCodes;
-import com.jeeasy.engine.queries.PagedResultList;
-import com.jeeasy.engine.queries.QuerySettings;
 import com.jeeasy.engine.queries.vos.AbstractVO;
 import com.jeeasy.engine.services.validators.AbstractCRUDValidator;
 import com.jeeasy.engine.translations.EnumFailuresTranslations;
@@ -22,6 +20,8 @@ import com.jeeasy.engine.utils.cdi.CDIUtils;
 import com.jeeasy.engine.utils.data.ListUtils;
 import com.jeeasy.engine.utils.dependencies.DependencyBeanUtils;
 import com.jeeasy.engine.utils.dependencies.IDependencyBean;
+import com.jeeasy.engine.utils.queries.PagedResultList;
+import com.jeeasy.engine.utils.queries.QueryBuilder;
 import com.jeeasy.engine.utils.reflection.ClassUtils;
 import com.jeeasy.engine.utils.reflection.ReflectionUtils;
 
@@ -71,7 +71,7 @@ public abstract class AbstractService<E extends AbstractEntity, V extends Abstra
 		return eao.find(entityId);
 	}
 	
-	public PagedResultList<V> defaultPagedSearch(QuerySettings querySettings) {
+	public PagedResultList<V> defaultPagedSearch(QueryBuilder querySettings) {
 		validator.validatePagedSearch(querySettings);
 		
 		return eao.getDefaultPagedResultList(querySettings);

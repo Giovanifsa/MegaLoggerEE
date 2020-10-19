@@ -1,14 +1,14 @@
 package com.jeeasy.engine.utils.data;
 
-import com.jeeasy.engine.utils.data.models.IOInterface;
+import java.util.function.Function;
 
 public final class ArrayUtils {
 	@SuppressWarnings("unchecked")
-	public static <I, O> O[] convertArray(I[] array, IOInterface<I, O> converter) {
+	public static <I, O> O[] convertArray(I[] array, Function<I, O> converter) {
 		Object[] convertedItems = new Object[array.length];
 		
 		for (int i = 0; i < array.length; i++) {
-			convertedItems[i] = converter.output(array[i]);
+			convertedItems[i] = converter.apply(array[i]);
 		}
 		
 		return (O[]) convertedItems;

@@ -1,21 +1,14 @@
 package com.jeeasy.engine.resources.rest;
 
-import java.util.List;
-
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 
-import com.jeeasy.engine.queries.PagedResultList;
 import com.jeeasy.engine.queries.vos.AbstractVO;
+import com.jeeasy.engine.utils.queries.PagedResultList;
+import com.jeeasy.engine.utils.queries.QueryBuilder;
 
 public interface IPagedReadResource<V extends AbstractVO> {
-	@GET
+	@POST
 	@Path("/paged")
-	public PagedResultList<V> defaultPagedSearch(@QueryParam("resultLimit") int resultLimit,
-												 @QueryParam("offset") Long offsetId,
-												 @QueryParam("search") String search,
-												 @QueryParam("columnsToFilter") List<String> filteringColumns,
-												 @QueryParam("columnToOrder") String columnToOrder,
-												 @QueryParam("orderMethod") String orderMethod);
+	public PagedResultList<V> defaultPagedSearch(QueryBuilder queryHelper);
 }

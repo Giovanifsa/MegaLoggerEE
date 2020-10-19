@@ -1,54 +1,34 @@
 package com.jeeasy.engine.context;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import javax.enterprise.inject.Produces;
+import javax.inject.Singleton;
 
+@Singleton
 public class ArchitectureContextManager {
-	private static HashMap<Thread, ArchitectureContext> contextsForThreads = new HashMap<>();
+	private static final ThreadLocal<ArchitectureContext> contextualizedThreads = new ThreadLocal<>();
 
 	@Produces
 	public static ArchitectureContext getForThread() {
-		return getForThread(Thread.currentThread());
-	}
-
-	public static ArchitectureContext getForThread(Thread t) {
-		ArchitectureContext context = contextsForThreads.getOrDefault(t, new ArchitectureContext());
-
+		ArchitectureContext context = contextualizedThreads.get();
+		
 		if (context == null) {
 			context = new ArchitectureContext();
 		}
-
-		contextsForThreads.put(t, context);
-
+		
+		setForThread(context);
+		
 		return context;
 	}
 	
 	public static void setForThread(ArchitectureContext context) {
-		contextsForThreads.put(Thread.currentThread(), context);
-	}
-	
-	public static void setForThread(Thread t, ArchitectureContext context) {
-		contextsForThreads.put(t, context);
+		contextualizedThreads.set(context);
 	}
 
 	public static void destroyForThread() {
-		destroyForThread(Thread.currentThread());
+		contextualizedThreads.remove();
 	}
-
-	public static void destroyForThread(Thread t) {
-		if (contextsForThreads.containsKey(t)) {
-			contextsForThreads.remove(t);
-		}
-	}
-
-	public static void destroyForThread(ArchitectureContext context) {
-		for (Entry<Thread, ArchitectureContext> entry : contextsForThreads.entrySet()) {
-			if (entry.getValue() == context) {
-				destroyForThread(entry.getKey());
-				return;
-			}
-		}
+	
+	public static void forceSystemUserContext() {
+		
 	}
 }

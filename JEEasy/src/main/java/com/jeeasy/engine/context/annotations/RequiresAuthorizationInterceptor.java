@@ -10,8 +10,8 @@ import com.jeeasy.engine.exceptions.codes.EnumUnauthorizedExceptionCodes;
 import com.jeeasy.engine.translations.EnumValidationsTranslations;
 import com.jeeasy.engine.translations.Translator;
 
-@Interceptor
 @RequiresAuthorization
+@Interceptor
 public class RequiresAuthorizationInterceptor {
 	@Inject
 	private ArchitectureContext context;

@@ -6,10 +6,8 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -18,8 +16,8 @@ import org.hibernate.Session;
 import com.jeeasy.engine.database.entities.AbstractEntity;
 
 public abstract class AbstractEAO<E extends AbstractEntity> {
-	@PersistenceContext
-	private EntityManager entityManager;
+	@Inject
+	private PersistenceManager persistenceManager;
 	
 	@Inject
 	private Instance<E> entityBuilder;
@@ -33,16 +31,16 @@ public abstract class AbstractEAO<E extends AbstractEntity> {
 	}
 	
 	public E persist(E entity) {
-		entityManager.persist(entity);
+		persistenceManager.persist(entity);
 		return entity;
 	}
 	
 	public E find(Long id) {
-		return entityManager.find(entityClass, id);
+		return persistenceManager.find(entityClass, id);
 	}
 	
 	public E merge(E entity) {
-		return entityManager.merge(entity);
+		return persistenceManager.merge(entity);
 	}
 	
 	public List<E> findAll() {
@@ -62,12 +60,12 @@ public abstract class AbstractEAO<E extends AbstractEntity> {
 	
 	public void delete(E entity) {
 		if (entity != null) {
-			entityManager.remove(entity);
+			persistenceManager.remove(entity);
 		}
 	}
 	
 	public void lock(E entity) {
-		entityManager.lock(entity, LockModeType.PESSIMISTIC_WRITE);
+		persistenceManager.lock(entity, LockModeType.PESSIMISTIC_WRITE);
 	}
 	
 	public TypedQuery<E> createTypedQuery(String jpql) {
@@ -75,15 +73,15 @@ public abstract class AbstractEAO<E extends AbstractEntity> {
 	}
 	
 	public <T> TypedQuery<T> createTypedQuery(String jpql, Class<T> queryClass) {
-		return entityManager.createQuery(jpql, queryClass);
+		return persistenceManager.createQuery(jpql, queryClass);
 	}
 	
 	public Query createNativeQuery(String sql) {
-		return entityManager.createNamedQuery(sql);
+		return persistenceManager.createNamedQuery(sql);
 	}
 	
 	public Query createQuery(String jpql) {
-		return entityManager.createQuery(jpql);
+		return persistenceManager.createQuery(jpql);
 	}
 	
 	public <T> T getSingleResult(TypedQuery<T> query) {
@@ -103,15 +101,11 @@ public abstract class AbstractEAO<E extends AbstractEntity> {
 	}
 	
 	public Session getHibernateSession() {
-		return entityManager.unwrap(Session.class);
+		return persistenceManager.unwrap(Session.class);
 	}
 	
 	public void detach(E entity) {
-		entityManager.detach(entity);
-	}
-	
-	public EntityManager getEntityManager() {
-		return entityManager;
+		persistenceManager.detach(entity);
 	}
 	
 	public TypedQuery<E> createTypedQuery(StringBuilder sb) {
@@ -124,5 +118,13 @@ public abstract class AbstractEAO<E extends AbstractEntity> {
 	
 	public <T> TypedQuery<T> createTypedQuery(StringBuilder sb, Class<T> queryClass) {
 		return createTypedQuery(sb.toString(), queryClass);
+	}
+
+	public PersistenceManager getPersistenceManager() {
+		return persistenceManager;
+	}
+
+	public Class<E> getEntityClass() {
+		return entityClass;
 	}
 }

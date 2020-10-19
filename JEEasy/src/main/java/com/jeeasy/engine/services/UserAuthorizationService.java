@@ -82,6 +82,8 @@ public class UserAuthorizationService extends AbstractService<UserAuthorization,
 	}
 	
 	public void logout() {
+		getValidator().checkUserLogin();
+		
 		delete(getContext().getAuthorization().getId());
 	}
 	

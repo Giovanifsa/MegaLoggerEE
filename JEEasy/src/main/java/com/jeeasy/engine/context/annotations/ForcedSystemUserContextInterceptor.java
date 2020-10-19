@@ -1,9 +1,14 @@
 package com.jeeasy.engine.context.annotations;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.jeeasy.engine.context.ArchitectureContext;
 import com.jeeasy.engine.context.ArchitectureContextManager;
@@ -11,13 +16,18 @@ import com.jeeasy.engine.database.eaos.UserEAO;
 import com.jeeasy.engine.database.entities.User;
 import com.jeeasy.engine.exceptions.FailureRuntimeException;
 import com.jeeasy.engine.exceptions.codes.EnumFailureExceptionCodes;
+import com.jeeasy.engine.jobs.TimedJobManager;
 import com.jeeasy.engine.translations.EnumFailuresTranslations;
 import com.jeeasy.engine.translations.Translator;
 import com.jeeasy.engine.utils.cdi.CDIUtils;
 
-@Interceptor
 @ForcedSystemUserContext
-public class ForcedSystemUserContextInterceptor {
+@Interceptor
+public class ForcedSystemUserContextInterceptor implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	private Logger logger = LogManager.getLogger(TimedJobManager.class);
+
 	@Inject
 	private UserEAO userEAO;
 	
@@ -27,9 +37,10 @@ public class ForcedSystemUserContextInterceptor {
 	@AroundInvoke
 	public Object forceSystemUserContext(InvocationContext invocationContext) throws Exception {
 		ArchitectureContext lastContext = CDIUtils.inject(ArchitectureContext.class);
-		ArchitectureContextManager.destroyForThread();
 		
-		ArchitectureContext newContext = CDIUtils.inject(ArchitectureContext.class);
+		ArchitectureContext newContext = new ArchitectureContext();
+		ArchitectureContextManager.setForThread(newContext);
+		
 		User systemUser = userEAO.findByUserName("system");
 		
 		if (systemUser == null) {
@@ -42,14 +53,21 @@ public class ForcedSystemUserContextInterceptor {
 		
 		newContext.setUser(systemUser);
 		
-		Object invocationReturn = invocationContext.proceed();
+		logger.info("Enforcing System User (from {})", lastContext.getUser() != null ? 
+													   lastContext.getUser().getUserName() : 
+													   "NO USER");
 		
-		rollbackContext(lastContext);
-		return invocationReturn;
+		try {
+			Object invocationReturn = invocationContext.proceed();
+			return invocationReturn;
+		} 
+		
+		finally {
+			rollbackContext(lastContext);
+		}
 	}
 	
 	private void rollbackContext(ArchitectureContext lastContext) {
-		ArchitectureContextManager.destroyForThread();
 		ArchitectureContextManager.setForThread(lastContext);
 	}
 }

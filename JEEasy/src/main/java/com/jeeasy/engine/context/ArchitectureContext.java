@@ -64,7 +64,7 @@ public class ArchitectureContext {
 	
 	@PreDestroy
 	private void destroyForThread() {
-		ArchitectureContextManager.destroyForThread(this);
+		ArchitectureContextManager.destroyForThread();
 	}
 
 	public Locale getContextLanguage() {

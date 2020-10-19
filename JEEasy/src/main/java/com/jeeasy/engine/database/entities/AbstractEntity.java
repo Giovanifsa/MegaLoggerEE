@@ -17,7 +17,7 @@ public abstract class AbstractEntity {
 	
 	@Override
 	public int hashCode() {
-		String toHash = getClass().getSimpleName() + "[" + getId() + "]";
+		String toHash = toString();
 		int hash = 0;
 		
 		for (char c : toHash.toCharArray()) {

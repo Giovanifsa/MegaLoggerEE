@@ -7,9 +7,9 @@ import javax.persistence.TypedQuery;
 
 import com.jeeasy.engine.database.entities.User;
 import com.jeeasy.engine.database.entities.UserAuthorization;
-import com.jeeasy.engine.queries.PagedResultList;
-import com.jeeasy.engine.queries.QuerySettings;
 import com.jeeasy.engine.queries.vos.UserAuthorizationVO;
+import com.jeeasy.engine.utils.queries.PagedResultList;
+import com.jeeasy.engine.utils.queries.QueryBuilder;
 
 public class UserAuthorizationEAO extends AbstractListingEAO<UserAuthorization, UserAuthorizationVO> {
 	
@@ -28,7 +28,7 @@ public class UserAuthorizationEAO extends AbstractListingEAO<UserAuthorization, 
 	}
 
 	@Override
-	public PagedResultList<UserAuthorizationVO> getDefaultPagedResultList(QuerySettings querySettings) {
+	public PagedResultList<UserAuthorizationVO> getDefaultPagedResultList(QueryBuilder querySettings) {
 		// TODO Auto-generated method stub
 		return null;
 	}

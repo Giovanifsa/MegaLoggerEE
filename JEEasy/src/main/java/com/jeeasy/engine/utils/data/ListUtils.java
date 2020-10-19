@@ -3,9 +3,10 @@ package com.jeeasy.engine.utils.data;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.jeeasy.engine.utils.data.models.EqualsInterface;
-import com.jeeasy.engine.utils.data.models.IOInterface;
 
 public class ListUtils {
 	public static boolean listHasItems(List<?> list) {
@@ -75,9 +76,9 @@ public class ListUtils {
 		return copy;
 	}
 	
-	public static <T> boolean listContains(List<T> list, IOInterface<T, Boolean> processFunction) {
+	public static <T> boolean listContains(List<T> list, Function<T, Boolean> processFunction) {
 		for (T item : list) {
-			if (BooleanUtils.isTrue(processFunction.output(item))) {
+			if (BooleanUtils.isTrue(processFunction.apply(item))) {
 				return true;
 			}
 		}
@@ -85,14 +86,14 @@ public class ListUtils {
 		return false;
 	}
 	
-	public static <T> List<T> filterOutItems(List<T> list, IOInterface<T, Boolean> filter) {
+	public static <T> List<T> filterOutItems(List<T> list, Function<T, Boolean> filter) {
 		List<T> copy = copyList(list);
 		
 		for (int x = 0; x < copy.size(); x++) {
 			ArrayList<Integer> indexesForRemoval = new ArrayList<>();
 
 			for (int y = (x + 1); y < copy.size(); y++) {
-				if (BooleanUtils.isTrue(filter.output(copy.get(y)))) {
+				if (BooleanUtils.isTrue(filter.apply(copy.get(y)))) {
 					indexesForRemoval.add(y);
 				}
 			}
@@ -109,13 +110,25 @@ public class ListUtils {
 		return copy;
 	}
 	
-	public static <I, O> List<O> convertList(List<I> listToConvert, IOInterface<I, O> converter) {
+	public static <I, O> List<O> convertList(List<I> listToConvert, Function<I, O> converter) {
 		ArrayList<O> convertedList = new ArrayList<>();
 		
 		for (I item : listToConvert) {
-			convertedList.add(converter.output(item));
+			convertedList.add(converter.apply(item));
 		}
 		
 		return convertedList;
+	}
+	
+	public static <T> String buildString(List<T> inputList, BiFunction<Integer, T, String> converter) {
+		List<T> list = newListOnNull(inputList);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for (int x = 0; x < list.size(); x++) {
+			sb.append(converter.apply(x, list.get(x)));
+		}
+		
+		return sb.toString();
 	}
 }

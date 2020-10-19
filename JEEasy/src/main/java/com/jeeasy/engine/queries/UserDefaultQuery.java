@@ -1,11 +1,10 @@
 package com.jeeasy.engine.queries;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigInteger;
+import java.util.List;
 
-import com.jeeasy.engine.database.entities.User;
 import com.jeeasy.engine.queries.vos.UserVO;
-import com.jeeasy.engine.queries.vos.builders.UserVOBuilder;
+import com.jeeasy.engine.utils.data.ListUtils;
 
 public class UserDefaultQuery extends AbstractViewObjectQuery<UserVO> {
 
@@ -14,24 +13,23 @@ public class UserDefaultQuery extends AbstractViewObjectQuery<UserVO> {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(" SELECT ");
-		sb.append(		User.ATTRIBUTE_USERNAME + ", ");
-		sb.append(		User.ATTRIBUTE_IDUSER);
-		sb.append("	FROM " + User.ENTITY_USER + " ");
+		sb.append(" 	idUser, ");
+		sb.append(" 	userName ");
+		sb.append("	FROM User ");
 		
 		return sb.toString();
 	}
 
 	@Override
-	public String getIdColumnName() {
-		return User.ATTRIBUTE_IDUSER;
-	}
-
-	@Override
-	public UserVO getVOFromResultSetRow(ResultSet rs) throws SQLException {
-		return 
-			new UserVOBuilder()
-			.setIdSystemUser(rs.getLong(User.ATTRIBUTE_IDUSER))
-			.setUserName(rs.getString(User.ATTRIBUTE_USERNAME))
-			.build();
+	public List<UserVO> parseResultList(List<?> resultList) {
+		return ListUtils.convertList(resultList, (result) -> {
+			Object[] resultItems = (Object[]) result;
+			
+			UserVO userVO = new UserVO();
+			userVO.setIdUser(((BigInteger) resultItems[0]).longValue());
+			userVO.setUserName((String) resultItems[1]);
+			
+			return userVO;
+		});
 	}
 }

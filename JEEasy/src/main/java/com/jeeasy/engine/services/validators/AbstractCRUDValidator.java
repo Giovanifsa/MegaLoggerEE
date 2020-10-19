@@ -8,10 +8,10 @@ import com.jeeasy.engine.exceptions.UnauthorizedRuntimeException;
 import com.jeeasy.engine.exceptions.ValidationRuntimeException;
 import com.jeeasy.engine.exceptions.codes.EnumUnauthorizedExceptionCodes;
 import com.jeeasy.engine.exceptions.codes.EnumValidationExceptionCodes;
-import com.jeeasy.engine.queries.QuerySettings;
 import com.jeeasy.engine.translations.EnumValidationsTranslations;
 import com.jeeasy.engine.translations.Translator;
 import com.jeeasy.engine.utils.data.StringUtils;
+import com.jeeasy.engine.utils.queries.QueryBuilder;
 
 public abstract class AbstractCRUDValidator<Entity extends AbstractEntity> {
 	@Inject
@@ -54,7 +54,7 @@ public abstract class AbstractCRUDValidator<Entity extends AbstractEntity> {
 		checkUserLogin();
 	}
 	
-	public void validatePagedSearch(QuerySettings querySettings) {
+	public void validatePagedSearch(QueryBuilder querySettings) {
 		checkUserLogin();
 	}
 	
