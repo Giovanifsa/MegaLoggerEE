@@ -12,6 +12,11 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
+/**
+ * Note: DON'T use injected attributes while using this interceptor.
+ * Injected attributes instances will not have this interceptor operation applied.
+ *
+ */
 public @interface ForcedSystemUserContext {
 
 }

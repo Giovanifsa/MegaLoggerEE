@@ -20,8 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.jeeasy.engine.configuration.ArchitectureConfigurator;
-import com.jeeasy.engine.context.ArchitectureContext;
-import com.jeeasy.engine.context.annotations.ForcedSystemUserContext;
 import com.jeeasy.engine.utils.cdi.CDIUtils;
 
 @Singleton
@@ -43,18 +41,10 @@ public class TimedJobManager {
 		logger.info("Initializing Timed Job Manager");
 		logger.info("Now registering jobs");
 		
-		var injected = CDIUtils.inject(ArchitectureContext.class);
-		forceSystemUserContext();
-		
 		//Default job timers
 		for (ITimedJob job : timedJobBeans) {
 			addTimer(job);
 		}
-	}
-	
-	@ForcedSystemUserContext
-	public void forceSystemUserContext() {
-		
 	}
 	
 	public void addTimer(ITimedJob timedJob) {

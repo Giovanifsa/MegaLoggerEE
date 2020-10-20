@@ -27,8 +27,4 @@ public class ArchitectureContextManager {
 	public static void destroyForThread() {
 		contextualizedThreads.remove();
 	}
-	
-	public static void forceSystemUserContext() {
-		
-	}
 }

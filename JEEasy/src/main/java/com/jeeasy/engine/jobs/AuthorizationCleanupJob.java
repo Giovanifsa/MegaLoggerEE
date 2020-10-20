@@ -1,14 +1,12 @@
 package com.jeeasy.engine.jobs;
 
 import javax.ejb.ScheduleExpression;
-import javax.inject.Inject;
 
+import com.jeeasy.engine.context.annotations.ForcedSystemUserContext;
 import com.jeeasy.engine.services.UserAuthorizationService;
+import com.jeeasy.engine.utils.cdi.CDIUtils;
 
 public class AuthorizationCleanupJob implements ITimedJob {
-	@Inject
-	private UserAuthorizationService authService;
-	
 	@Override
 	public ScheduleExpression getSchedule() {
 		ScheduleExpression scheduleExpression = new ScheduleExpression();
@@ -20,7 +18,10 @@ public class AuthorizationCleanupJob implements ITimedJob {
 	}
 
 	@Override
+	@ForcedSystemUserContext
 	public void runJob() {
+		UserAuthorizationService authService = CDIUtils.inject(UserAuthorizationService.class);
+		
 		authService.cleanupExpiredAuthorizations();
 	}
 }
