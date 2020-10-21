@@ -6,7 +6,7 @@ import java.util.List;
 import com.jeeasy.engine.queries.vos.UserVO;
 import com.jeeasy.engine.utils.data.ListUtils;
 
-public class UserDefaultQuery extends AbstractViewObjectQuery<UserVO> {
+public class UserDefaultQuery extends AbstractSQLViewObjectQuery<UserVO> {
 
 	@Override
 	public String getQuery() {

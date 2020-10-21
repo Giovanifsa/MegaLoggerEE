@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import com.jeeasy.engine.database.eaos.PersistenceManager;
-import com.jeeasy.engine.queries.AbstractViewObjectQuery;
+import com.jeeasy.engine.queries.AbstractSQLViewObjectQuery;
 import com.jeeasy.engine.queries.vos.AbstractVO;
 import com.jeeasy.engine.utils.cdi.CDIUtils;
 import com.jeeasy.engine.utils.data.ListUtils;
@@ -15,7 +15,7 @@ import com.jeeasy.engine.utils.data.ListUtils;
 public final class SQLQueryUtils {
 	private SQLQueryUtils() {};
 	
-	public static <V extends AbstractVO> PagedResultList<V> getPagedResultList(AbstractViewObjectQuery<V> voQuery, QueryBuilder queryBuilder) {
+	public static <V extends AbstractVO> PagedResultList<V> getPagedResultList(AbstractSQLViewObjectQuery<V> voQuery, QueryBuilder queryBuilder) {
 		PersistenceManager entityManager = CDIUtils.inject(PersistenceManager.class);
 		
 		List<Object> queryParameters = new ArrayList<>(voQuery.getQueryParameters());
@@ -192,6 +192,6 @@ public final class SQLQueryUtils {
 		query.setOffset(400L);
 		query.setLimit(100L);
 		
-		System.out.println(SQLQueryUtils.prepareQuery(sql, query));
+		System.out.println(SQLQueryUtils.prepareQuery(sql, false, query));
 	}
 }

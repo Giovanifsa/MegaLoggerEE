@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jeeasy.engine.queries.vos.UserRoleVO;
 
-public class UserRoleDefaultQuery extends AbstractViewObjectQuery<UserRoleVO> {
+public class UserRoleDefaultQuery extends AbstractSQLViewObjectQuery<UserRoleVO> {
 
 	@Override
 	public String getQuery() {

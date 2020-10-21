@@ -91,6 +91,7 @@ public class SettingsManager {
 	}
 	
 	@Produces
+	@SuppressWarnings("rawtypes")
 	public AbstractSetting produceSetting(InjectionPoint ip) {
 		return settingsList.stream()
 				.filter(

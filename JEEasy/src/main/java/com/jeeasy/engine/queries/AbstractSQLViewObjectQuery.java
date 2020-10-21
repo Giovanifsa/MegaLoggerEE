@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jeeasy.engine.queries.vos.AbstractVO;
 
-public abstract class AbstractViewObjectQuery<V extends AbstractVO> {
+public abstract class AbstractSQLViewObjectQuery<V extends AbstractVO> {
 	private List<Object> queryParameters = new ArrayList<>();
 	
 	public abstract String getQuery();

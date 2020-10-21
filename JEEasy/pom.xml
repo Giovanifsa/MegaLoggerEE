@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.jeeasy</groupId>
-	<artifactId>JEEasy</artifactId>
+	<groupId>com.kvkserver</groupId>
+	<artifactId>MegaLoggerEE</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>JEEasy</name>
+	<name>MegaLoggerEE</name>
 	<url>https://github.com/Giovanifsa</url>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
@@ -87,12 +87,12 @@
 	</dependencies>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>14</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
 	<build>
-		<finalName>JEEasy</finalName>
+		<finalName>MegaLoggerEE</finalName>
 	</build>
 </project>

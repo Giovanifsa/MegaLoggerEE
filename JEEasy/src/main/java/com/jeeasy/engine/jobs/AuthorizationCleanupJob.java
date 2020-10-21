@@ -12,7 +12,6 @@ public class AuthorizationCleanupJob implements ITimedJob {
 		ScheduleExpression scheduleExpression = new ScheduleExpression();
 		scheduleExpression.hour("*");
 		scheduleExpression.minute("*");
-		scheduleExpression.second("*");
 		
 		return scheduleExpression;
 	}

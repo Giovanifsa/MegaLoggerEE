@@ -36,8 +36,9 @@ public class ReflectionUtils {
 		}
 	}
 
-	public static Class<?> getGenericType(Object instance, int position) {
-		return ((Class<?>) ((ParameterizedType) instance.getClass().getGenericSuperclass()).getActualTypeArguments()[position]);
+	@SuppressWarnings("unchecked")
+	public static <V> Class<V> getGenericType(Object instance, int position) {
+		return ((Class<V>) ((ParameterizedType) instance.getClass().getGenericSuperclass()).getActualTypeArguments()[position]);
 	}
 	
 	@SuppressWarnings("unchecked")
